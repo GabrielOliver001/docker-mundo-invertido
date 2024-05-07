@@ -1,0 +1,36 @@
+stages:
+  - build
+  - push
+  - deploy
+
+build_imagem:
+  stage: build
+  tags:
+    - AWS-Apache
+
+#Configuração de Login da Instância com Dockerhub
+  before_script:
+    - docker login -u $REGISTRY_USER -p $REGISTRY_PASS
+
+#Construção da Imagem
+  script:
+    - docker build -t gabrieloliver001/mundo-invertido:1.0 app/.
+
+#Envio da Imagem ao Registry
+push_imagem:
+  stage: push
+  tags:
+    - AWS-Apache
+  script:
+      - docker push gabrieloliver001/mundo-invertido:1.0
+
+#Deploy da Aplicação Web
+deploy:
+  stage: deploy
+  needs:
+    - push_imagem
+  tags:
+    - AWS-Apache
+  script:
+    - docker run -dti --name mundo-invertido -p 80:80 gabrieloliver001/mundo-invertido:1.0
+
