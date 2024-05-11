@@ -12,7 +12,7 @@ sudo gitlab-runner register \
 --non-interactive \
 --executor shell \
 --url https://gitlab.com/ \
---registration-token GR1348941VPCS66xyVDwLQN8QFni5 \
+--registration-token GR1348941VPCSXXXXXXXXXXXXXXXX \
 --tag-list "AWS-Apache"
 
 #Instalação do Docker
